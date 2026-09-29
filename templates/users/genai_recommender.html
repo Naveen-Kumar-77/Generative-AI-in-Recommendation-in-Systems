@@ -1,0 +1,264 @@
+{% extends 'users/Userbase.html' %}
+
+{% block content %}
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .content-wrapper {
+        flex: 1 0 auto;
+        padding-bottom: 2rem;
+    }
+
+    .navbar {
+        background-color: #1e3a8a;
+        padding: 1.2rem;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        margin: 1rem 1.5rem;
+    }
+
+    .navbar ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .navbar li {
+        margin: 0 1.2rem;
+    }
+
+    .navbar a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.2rem;
+        padding: 0.6rem 1.2rem;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .navbar a:hover {
+        background-color: #3b82f6;
+    }
+
+    .container {
+        max-width: 1200px;
+        padding: 2rem 1.5rem;
+        margin: 0 auto;
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #ffffff, #f8fafc);
+        padding: 2.5rem;
+        margin: 0 auto;
+        max-width: 95%;
+    }
+
+    .card h2 {
+        color: #1e3a8a;
+        font-weight: 700;
+        font-size: 2.2rem;
+        margin-bottom: 1.2rem;
+        text-align: center;
+    }
+
+    .card p.text-muted {
+        color: #4b5563;
+        font-size: 1.2rem;
+        line-height: 1.6;
+        margin-bottom: 1.8rem;
+        text-align: center;
+    }
+
+    .form-label {
+        color: #1e3a8a;
+        font-weight: 600;
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .form-select, .form-control {
+        border: 2px solid #3b82f6;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        padding: 0.6rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-select:focus, .form-control:focus {
+        border-color: #1e3a8a;
+        box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+        outline: none;
+    }
+
+    .form-control {
+        min-height: 180px;
+        resize: vertical;
+    }
+
+    .btn-success {
+        background-color: #3b82f6;
+        border: none;
+        border-radius: 8px;
+        padding: 0.8rem 2.5rem;
+        font-weight: 600;
+        font-size: 1.2rem;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-success:hover {
+        background-color: #1e3a8a;
+        transform: translateY(-2px);
+    }
+
+    .footer {
+        background-color: #1e3a8a;
+        padding: 1.8rem;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        color: white;
+        flex-shrink: 0;
+        border-top: 3px solid #3b82f6;
+        margin: 1rem 1.5rem;
+    }
+
+    .footer p {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+        .navbar {
+            padding: 1rem;
+            margin: 0.8rem;
+        }
+
+        .navbar li {
+            margin: 0.5rem 0;
+        }
+
+        .navbar a {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .container {
+            padding: 1.2rem 1rem;
+        }
+
+        .card {
+            padding: 1.5rem;
+            max-width: 98%;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+        }
+
+        .card p.text-muted {
+            font-size: 1rem;
+        }
+
+        .form-label {
+            font-size: 1.1rem;
+        }
+
+        .form-select, .form-control {
+            font-size: 0.9rem;
+            padding: 0.5rem;
+        }
+
+        .form-control {
+            min-height: 140px;
+        }
+
+        .btn-success {
+            padding: 0.6rem 2rem;
+            font-size: 1rem;
+        }
+
+        .footer {
+            padding: 1.2rem;
+            margin: 0.8rem;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<div class="content-wrapper">
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'UserHome' %}">Home</a></li>
+            <li><a href="{% url 'genai_recommender' %}">Generate Recommendation</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h2 class="text-center mb-3">AI-Powered Recommendation Engine</h2>
+            <p class="text-muted text-center">
+                Enhance recommendation accuracy using Generative AI techniques such as
+                <strong>GANs, VAEs, Hybrid Models, and Transformers</strong>.
+            </p>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="task_type" class="form-label fw-bold">Select Generative AI Task:</label>
+                    <select name="task_type" id="task_type" required class="form-select">
+                        <option value="generate">Generate Synthetic Recommendations using GANs/VAEs</option>
+                        <option value="cold_start">Address Cold Start Problem with GenAI Techniques</option>
+                        <option value="diversity">Enhance Diversity in Recommendation Results</option>
+                        <option value="evaluate">Assess & Improve Recommendation System Architecture</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="input_text" class="form-label fw-bold">Problem Description / RS Context:</label>
+                    <textarea name="input_text" id="input_text" rows="6" class="form-control" required placeholder="e.g., My model relies heavily on collaborative filtering and suffers from cold-start issues for new books..."></textarea>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Generate Insight with Gemini</button>
+                </div>
+            </form>
+
+            {% if output %}
+            <hr class="my-4">
+            <div class="mt-4">
+                <h4 class="text-center text-success mb-3">Gemini Response:</h4>
+                <div style="white-space: pre-wrap; background-color: #f1f5f9; padding: 1.5rem; border-radius: 10px; border-left: 5px solid #3b82f6;">
+                    {{ output }}
+                </div>
+
+                <form method="POST" action="{% url 'export_pdf' %}" class="mt-4 text-center">
+                    {% csrf_token %}
+                    <input type="hidden" name="pdf_content" value="{{ output|escape }}">
+                    <button type="submit" class="btn btn-success">Download as PDF</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>© 2025 A Review of Generative AI in Recommendation Systems. All rights reserved.</p>
+</footer>
+{% endblock %}

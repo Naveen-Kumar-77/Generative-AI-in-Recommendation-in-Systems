@@ -1,0 +1,189 @@
+{% extends 'admins/Adminbase.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f4f7fa;
+    }
+
+    .title-section {
+        text-align: center;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .title-section h2 {
+        color: #102542;
+        font-size: 2rem;
+        font-weight: 700;
+        border-bottom: 2px solid #FFD700;
+        display: inline-block;
+        padding-bottom: 8px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+        margin: 1.5rem auto;
+        max-width: 1200px;
+        padding: 1.5rem;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+    }
+
+    th, td {
+        padding: 14px;
+        text-align: center;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+        background-color: #102542;
+        color: #FFD700;
+    }
+
+    tr:hover {
+        background-color: #f1f5f9;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 0.85rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: 0.3s;
+        display: inline-block;
+        margin: 2px;
+    }
+
+    .btn-primary {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        background-color: #218838;
+    }
+
+    .btn-secondary {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .btn-secondary:hover {
+        background-color: #e0a800;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-danger:hover {
+        background-color: #bd2130;
+    }
+
+    .badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.85rem;
+        display: inline-block;
+    }
+
+    .badge-warning {
+        background: #ffc107;
+        color: #000;
+    }
+
+    .badge-success {
+        background: #28a745;
+        color: #fff;
+    }
+
+    .badge-secondary {
+        background: #6c757d;
+        color: #fff;
+    }
+
+    @media screen and (max-width: 768px) {
+        th, td {
+            font-size: 0.85rem;
+            padding: 10px;
+        }
+
+        .btn {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+        }
+
+        .title-section h2 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
+<div class="title-section">
+    <h2>Registered User Details</h2>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Login ID</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th>Locality</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in data %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.loginid }}</td>
+                <td>{{ user.mobile }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.locality }}</td>
+                <td>
+                    {% if user.status == 'waiting' %}
+                        <span class="badge badge-warning">Waiting</span>
+                    {% elif user.status == 'activated' %}
+                        <span class="badge badge-success">Activated</span>
+                    {% elif user.status == 'deactivated' %}
+                        <span class="badge badge-secondary">Deactivated</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.status == 'waiting' or user.status == 'deactivated' %}
+                        <a class="btn btn-primary" href="{% url 'ActivaUsers' %}?uid={{ user.id }}">Activate</a>
+                    {% endif %}
+                    {% if user.status == 'activated' %}
+                        <a class="btn btn-secondary" href="{% url 'deactivate_user' %}?uid={{ user.id }}">Deactivate</a>
+                    {% endif %}
+                    <a class="btn btn-danger" href="{% url 'delete_user' %}?uid={{ user.id }}" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">No registered users found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

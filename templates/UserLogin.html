@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .login-wrapper {
+        max-width: 450px;
+        margin: 2rem auto;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-form h1 {
+        text-align: center;
+        color: #1e3a8a;
+        margin-bottom: 1.5rem;
+    }
+
+    .login-form label {
+        display: block;
+        margin-bottom: 0.4rem;
+        font-weight: bold;
+        color: #1e3a8a;
+    }
+
+    .login-form input {
+        width: 100%;
+        padding: 0.6rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+    }
+
+    .login-form button {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .login-form button:hover {
+        background-color: #1e3a8a;
+    }
+
+    .text-danger {
+        color: red;
+        text-align: center;
+        margin-top: 1rem;
+    }
+</style>
+
+<div class="login-wrapper">
+    <form method="POST" action="{% url 'UserLoginCheck' %}" class="login-form">
+        <h1>User Login</h1>
+        {% csrf_token %}
+
+        <label for="loginid">Login ID</label>
+        <input type="text" name="loginid" id="loginid" required>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+
+        <button type="submit">Login</button>
+
+        {% if messages %}
+        <div class="text-danger">
+            {% for message in messages %}
+                {{ message }}<br>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

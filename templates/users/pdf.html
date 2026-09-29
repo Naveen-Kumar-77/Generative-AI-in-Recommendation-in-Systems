@@ -1,0 +1,59 @@
+{% extends 'users/Userbase.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GenAI Recommendation Report</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 40px;
+            color: #222;
+            line-height: 1.8;
+            background-color: #fff;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 28px;
+            text-transform: uppercase;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            font-size: 20px;
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .content-box {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 GenAI-Based Recommendation Report</h1>
+
+    <div class="section">
+        <h2> Gemini AI Output</h2>
+        <div class="content-box">
+            {{ content|safe }}
+        </div>
+    </div>
+
+    <div class="section">
+        <p><strong>Generated using:</strong> Gemini 2.0 Model | Task Type: Generative AI in Recommendation Systems (GANs, VAEs, Transformers)</p>
+        <p><strong>Date:</strong> {{ now|date:"F j, Y" }}</p>
+    </div>
+</body>
+</html>
+{% endblock %}

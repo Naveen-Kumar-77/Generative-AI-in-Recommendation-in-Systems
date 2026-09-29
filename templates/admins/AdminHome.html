@@ -1,0 +1,64 @@
+{% extends 'admins/Adminbase.html' %}
+
+{% block content %}
+<style>
+    .user-dashboard {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        max-width: 800px;
+        margin: 2rem auto;
+        text-align: center;
+    }
+
+    .user-dashboard h2 {
+        color: #1e3a8a;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+    }
+
+    .user-dashboard p {
+        color: #4b5563;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .user-dashboard .btn {
+        display: inline-block;
+        margin: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        font-weight: bold;
+        background-color: #3b82f6;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+    }
+
+    .user-dashboard .btn:hover {
+        background-color: #1e3a8a;
+    }
+
+    @media (max-width: 600px) {
+        .user-dashboard h2 {
+            font-size: 1.6rem;
+        }
+
+        .user-dashboard p {
+            font-size: 1rem;
+        }
+
+        .user-dashboard .btn {
+            width: 100%;
+            margin-bottom: 0.75rem;
+        }
+    }
+</style>
+
+<div class="user-dashboard">
+    <h2>Welcome, {{ request.session.loggeduser }}</h2>
+    <p>Use the options below to explore and generate high-quality recommendations using Generative AI models like GANs and VAEs.</p>
+    <a href="{% url 'UserLogin' %}" class="btn">Logout</a>  {# You can replace with logout logic #}
+</div>
+{% endblock %}

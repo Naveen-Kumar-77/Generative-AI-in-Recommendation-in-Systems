@@ -1,0 +1,65 @@
+{% extends 'users/Userbase.html' %}
+
+{% block content %}
+<!-- templates/users/generate.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Powered Recommender</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+  <h2 class="mb-4"> AI-Powered Code Assistant</h2>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label class="form-label">Task Type</label>
+      <select class="form-select" name="task_type" required>
+        <option value="generate">Code Generation</option>
+        <option value="debug">Code Debugging</option>
+        <option value="translate">Code Translation</option>
+        <option value="review">Company Review</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Input Text</label>
+      <textarea class="form-control" name="input_text" rows="5" placeholder="Describe your task or paste code here..." required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Upload Code File (optional)</label>
+      <input type="file" class="form-control" name="code_file">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Target Language (for translation)</label>
+      <input type="text" class="form-control" name="target_lang" placeholder="e.g., Python, JavaScript">
+    </div>
+
+    <button type="submit" class="btn btn-primary">🔍 Run Task</button>
+  </form>
+
+  {% if output %}
+    <hr>
+    <h4 class="mt-4">✅ AI Output:</h4>
+    <div id="ai-output" class="border p-3 bg-light rounded">
+      {{ output|linebreaksbr }}
+    </div>
+
+    <form method="post" action="{% url 'export_pdf' %}" target="_blank">
+      {% csrf_token %}
+      <input type="hidden" name="pdf_content" value="{{ output|escapejs }}">
+      <button type="submit" class="btn btn-success mt-3">📄 Export to PDF</button>
+    </form>
+  {% endif %}
+</div>
+</body>
+</html>
+
+{% endblock %}
